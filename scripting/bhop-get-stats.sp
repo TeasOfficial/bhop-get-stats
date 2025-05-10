@@ -14,7 +14,7 @@ bool g_bShavitReplaysLoaded = false;
 
 public Plugin myinfo =
 {
-	name = "bhop get stats",
+	name = "bhop get stats [FIX]",
 	author = "Nimmy",
 	description = "central plugin to call bhop stats",
 	version = "1.5",
@@ -45,6 +45,7 @@ int g_iKeyTick[MAXPLAYERS + 1];
 int g_iTurnDir[MAXPLAYERS + 1];
 int g_iCmdNum[MAXPLAYERS + 1];
 int g_iYawwingTick[MAXPLAYERS + 1];
+int g_iLastSpeed[MAXPLAYERS + 1];
 
 float g_fOldHeight[MAXPLAYERS + 1];
 float g_fRawGain[MAXPLAYERS + 1];
@@ -498,6 +499,8 @@ void StartFirstJumpForward(int client)
 	float realVelocity[3];
 	realVelocity = (IsShavitReplayBot(client) ? g_fLastRunCmdVelVec[client] : g_fRunCmdVelVec[client]);
 
+	g_iLastSpeed[client] = RoundToFloor(GetSpeed(realVelocity, true));
+
 	Call_StartForward(FirstJumpStatsForward);
 	Call_PushCell(client);
 	Call_PushCell(RoundToFloor(GetSpeed(realVelocity, true)));
@@ -536,6 +539,21 @@ void StartJumpForward(int client)
 
 	coeffsum = RoundToFloor(coeffsum * 100.0 + 0.5) / 100.0;
 	efficiency = RoundToFloor(efficiency * 100.0 + 0.5) / 100.0;
+
+	// Fix 100GN with no spped
+	if (FloatAbs(realVelocity[0]) < 1.0 && FloatAbs(realVelocity[1]) < 1.0)
+	{
+		coeffsum = 0.0;
+		g_iSyncedTick[client] = 0;
+	}
+
+	// Fix 100GN with speed
+	if (speed == g_iLastSpeed[client]) {
+		coeffsum = 0.0;
+		g_iSyncedTick[client] = 0;
+	}
+	// Shavit_PrintToChat(client, "上次速度: %d | 当前速度: %d" ,g_iLastSpeed[client], speed);
+	g_iLastSpeed[client] = speed;
 
 	Call_StartForward(JumpStatsForward);
 	Call_PushCell(client);
