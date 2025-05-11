@@ -184,6 +184,7 @@ public void OnPlayerRunCmdPre(int client, int buttons, int impulse, const float 
 
 	g_fLastRunCmdVelVec[client] = g_fRunCmdVelVec[client];
 	GetEntPropVector(client, Prop_Data, "m_vecVelocity", g_fRunCmdVelVec[client]);
+	
 
 	int realButtons = buttons;
 	int realFlags = GetEntityFlags(client);
@@ -422,7 +423,7 @@ void Bgs_ProcessPostRunCmd(int client, int buttons, float yawDiff, const float v
 			wishspeed = maxspeed;
 		}
 
-		if(wishspeed > 0.0)
+		if(wishspeed > 0.01)
 		{
 			float wishspd = (wishspeed > 30.0) ? 30.0 : wishspeed;
 
@@ -432,15 +433,21 @@ void Bgs_ProcessPostRunCmd(int client, int buttons, float yawDiff, const float v
 
 			if(currentgain < 30.0)
 			{
-				g_iSyncedTick[client]++;
 				gaincoeff = (wishspd - FloatAbs(currentgain)) / wishspd;
 			}
 
+			if( velocity[0] + velocity[1] !=
+				g_fLastRunCmdVelVec[client][0] + g_fLastRunCmdVelVec[client][1])
+			{
+				g_iSyncedTick[client]++;
+			}
+			
 			if(g_bTouchesWall[client] && gaincoeff > 0.5)
 			{
 				gaincoeff -= 1.0;
 				gaincoeff = FloatAbs(gaincoeff);
 			}
+
 			g_fRawGain[client] += gaincoeff;
 		}
 		g_iCmdNum[client]++;
@@ -539,20 +546,7 @@ void StartJumpForward(int client)
 
 	coeffsum = RoundToFloor(coeffsum * 100.0 + 0.5) / 100.0;
 	efficiency = RoundToFloor(efficiency * 100.0 + 0.5) / 100.0;
-
-	// Fix 100GN with no spped
-	if (FloatAbs(realVelocity[0]) < 1.0 && FloatAbs(realVelocity[1]) < 1.0)
-	{
-		coeffsum = 0.0;
-		g_iSyncedTick[client] = 0;
-	}
-
-	// Fix 100GN with speed
-	if (speed == g_iLastSpeed[client]) {
-		coeffsum = 0.0;
-		g_iSyncedTick[client] = 0;
-	}
-	// Shavit_PrintToChat(client, "上次速度: %d | 当前速度: %d" ,g_iLastSpeed[client], speed);
+	
 	g_iLastSpeed[client] = speed;
 
 	Call_StartForward(JumpStatsForward);
