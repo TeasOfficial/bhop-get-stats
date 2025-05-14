@@ -434,14 +434,9 @@ void Bgs_ProcessPostRunCmd(int client, int buttons, float yawDiff, const float v
 			if(currentgain < 30.0)
 			{
 				gaincoeff = (wishspd - FloatAbs(currentgain)) / wishspd;
-			}
-
-			if( velocity[0] + velocity[1] !=
-				g_fLastRunCmdVelVec[client][0] + g_fLastRunCmdVelVec[client][1])
-			{
 				g_iSyncedTick[client]++;
 			}
-			
+
 			if(g_bTouchesWall[client] && gaincoeff > 0.5)
 			{
 				gaincoeff -= 1.0;
