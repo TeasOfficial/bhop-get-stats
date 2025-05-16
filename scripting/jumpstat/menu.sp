@@ -7,7 +7,7 @@ static int g_iCmdNum[MAXPLAYERS + 1]; //counter for editmode onplayerruncmd
 
 //Edit Mode
 
-void Menu_CheckEditMode(int client, int& buttons, int mouse[2]) {
+void Menu_CheckEditMode(int client, int buttons) {
 	if(!g_bEditing[client])
 	{
 		return;
@@ -42,19 +42,6 @@ void Menu_CheckEditMode(int client, int& buttons, int mouse[2]) {
 		else if(buttons & IN_BACK)
 		{
 			EditHudPosition(client, Y_DIM, 1);
-		}
-	}
-
-
-	if(mouse[X_DIM] != 0 || mouse[Y_DIM] != 0)
-	{
-		if(mouse[X_DIM] != 0 && !xLock)
-		{
-			EditHudPosition(client, X_DIM, mouse[X_DIM]);
-		}
-		if(mouse[Y_DIM] != 0 && !yLock)
-		{
-			EditHudPosition(client, Y_DIM, mouse[Y_DIM]);
 		}
 	}
 
@@ -351,9 +338,10 @@ public Action ShowPosEditPanel(int client, int args)
 	panel.DrawItem("", ITEMDRAW_SPACER);
 
 	panel.DrawItem("Use WASD/Mouse to Adjust HUDs \n"
-					..."Walk - Lock X | Duck - Lock Y\n"
-					..."Disable JoyStick (joystick 0) if\n"
-					..."mouse isn't working.", ITEMDRAW_RAWLINE);
+					..."Walk - Lock X | Duck - Lock Y\n\n"
+					..."Because the 64-bit CSS,\n"
+					..."the mouse adjustment\n"
+					..."feature has now been removed.", ITEMDRAW_RAWLINE);
 
 	panel.DrawItem("", ITEMDRAW_SPACER);
 	panel.DrawItem("", ITEMDRAW_SPACER);

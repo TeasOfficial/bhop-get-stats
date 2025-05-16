@@ -127,23 +127,23 @@ public void Shavit_OnLeaveZone(int client, int type, int track, int id, int enti
 	Fjt_Shavit_LeftZone(client, type);
 }
 
-public Action OnPlayerRunCmd(int client, int& buttons, int& impulse, float vel[3], float angles[3], int& weapon, int& subtype, int& cmdnum, int& tickcount, int& seed, int mouse[2])
+public void OnPlayerRunCmdPre(int client, int buttons, int impulse, const float vel[3], const float angles[3])
 {
 	if(!IsValidClient(client))
 	{
-		return Plugin_Continue;
+		return;
 	}
 
 	if(!IsFakeClient(client))
 	{
-		Menu_CheckEditMode(client, buttons, mouse);
+		Menu_CheckEditMode(client, buttons);
 	}
 
 	if(IsPlayerAlive(client))
 	{
 		ShowKeys_Tick(client, buttons, angles[1]);
 	}
-	return Plugin_Continue;
+	return;
 }
 
 public void OnGameFrame()
