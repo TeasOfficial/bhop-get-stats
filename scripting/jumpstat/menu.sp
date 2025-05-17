@@ -337,11 +337,9 @@ public Action ShowPosEditPanel(int client, int args)
 	panel.DrawItem("", ITEMDRAW_SPACER);
 	panel.DrawItem("", ITEMDRAW_SPACER);
 
-	panel.DrawItem("Use WASD/Mouse to Adjust HUDs \n"
-					..."Walk - Lock X | Duck - Lock Y\n\n"
-					..."Because the 64-bit CSS,\n"
-					..."the mouse adjustment\n"
-					..."feature has now been removed.", ITEMDRAW_RAWLINE);
+	panel.DrawItem("Use WASD to Adjust HUDs \n"
+					..."Walk - Lock X | Duck - Lock Y"
+					, ITEMDRAW_RAWLINE);
 
 	panel.DrawItem("", ITEMDRAW_SPACER);
 	panel.DrawItem("", ITEMDRAW_SPACER);
