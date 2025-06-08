@@ -49,6 +49,9 @@ void Menu_CheckEditMode(int client, int buttons) {
 	{
 		PushPosCache(client);
 
+		// DynamicChannel Group is full, but Showyaws is 6, so u cannot change Showyaws position.
+		// Sorry, i unknow how to fix it.
+		if(g_iEditHud[client] > 5) return;
 		BgsDisplayHud(client, g_fCacheHudPositions[client][g_iEditHud[client]], g_iBstatColors[GainGood], 1.0, GetDynamicChannel(g_iEditHud[client]), true, g_sHudStrs[g_iEditHud[client]]);
 
 		for(int i = 0; i < sizeof(g_fDefaultHudYPositions); i++)
@@ -147,6 +150,7 @@ void ShowStatOverviewMenu(int client)
 
 	AddMenuItem(menu, "trainer", "Trainer (HUD)");
 	AddMenuItem(menu, "showkeys", "Showkeys (HUD)");
+	AddMenuItem(menu, "showyaws", "ShowYawDiffs (HUD)");
 
 	DisplayMenu(menu, client, MENU_TIME_FOREVER);
 }
@@ -316,6 +320,20 @@ void ShowShowkeysSettingsMenu(int client)
 	DisplayMenu(menu, client, MENU_TIME_FOREVER);
 }
 
+void ShowShowyawsSettingsMenu(int client)
+{
+	if(!BgsIsValidClient(client))
+	{
+		return;
+	}
+	Menu menu = new Menu(Showyaws_Select);
+	menu.ExitBackButton = true;
+	SetMenuTitle(menu, "Showyaws Settings\n\n");
+	AddMenuItem(menu, "en", (g_iSettings[client][Bools] & SHOWYAWS_ENABLED) ? "[x] Enabled":"[ ] Enabled")
+
+	DisplayMenu(menu, client, MENU_TIME_FOREVER)
+}
+
 public Action ShowPosEditPanel(int client, int args)
 {
 	g_bEditing[client] = true;
@@ -352,8 +370,6 @@ public Action ShowPosEditPanel(int client, int args)
 
 	return Plugin_Handled;
 }
-
-
 
 void ShowColorsMenu(int client)
 {
@@ -583,6 +599,10 @@ public int StatOverview_Select(Menu menu, MenuAction action, int client, int opt
 		else if(StrEqual(info, "showkeys"))
 		{
 			ShowShowkeysSettingsMenu(client);
+		}
+		else if(StrEqual(info, "showyaws"))
+		{
+			ShowShowyawsSettingsMenu(client);
 		}
 	}
 	else if(action == MenuAction_Cancel)
@@ -941,6 +961,34 @@ public int Showkeys_Select(Menu menu, MenuAction action, int client, int option)
 		}
 		BgsSetCookie(client, g_hSettings[Bools], g_iSettings[client][Bools]);
 		ShowShowkeysSettingsMenu(client);
+	}
+	else if(action == MenuAction_Cancel)
+	{
+		if(option == MenuCancel_ExitBack)
+		{
+			ShowStatOverviewMenu(client);
+		}
+	}
+	else if(action == MenuAction_End)
+	{
+		delete menu;
+	}
+	return 0;
+}
+
+public int Showyaws_Select(Menu menu, MenuAction action, int client, int option)
+{
+	if(action == MenuAction_Select)
+	{
+		char info[32];
+		menu.GetItem(option, info, sizeof(info));
+
+		if(StrEqual(info, "en"))
+		{
+			g_iSettings[client][Bools] ^= SHOWYAWS_ENABLED;
+		}
+		BgsSetCookie(client, g_hSettings[Bools], g_iSettings[client][Bools]);
+		ShowShowyawsSettingsMenu(client);
 	}
 	else if(action == MenuAction_Cancel)
 	{

@@ -7,6 +7,7 @@ ConVar g_hEnabledSpeedometer;
 ConVar g_hEnabledSsj;
 ConVar g_hEnabledFjt;
 ConVar g_hEnabledShowkeys;
+ConVar g_hEnabledShowyaws;
 
 void Cvar_Start()
 {
@@ -19,6 +20,7 @@ void Cvar_Start()
 	g_hEnabledSsj = CreateConVar("js-enabled-ssj", "1", "enable ssj? 0 or 1");
 	g_hEnabledFjt = CreateConVar("js-enabled-fjt", "1", "enable shavit fjt? 0 or 1");
 	g_hEnabledShowkeys = CreateConVar("js-enabled-showkeys", "1", "enable showkeys? 0 or 1");
+	g_hEnabledShowyaws = CreateConVar("js-enabled-showyaws", "1", "enable showyaws? 0 or 1")
 
 	AutoExecConfig();
 }

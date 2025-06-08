@@ -11,7 +11,8 @@ void Commands_Start()
 	RegConsoleCmd("sm_speed", Command_CheckSpeedEnabled, "Opens the jumpstats main menu");
 	RegConsoleCmd("sm_ssj", Command_CheckSsjEnabled, "Opens the jumpstats main menu");
 	RegConsoleCmd("sm_fjt", Command_CheckFjtEnabled, "Opens the jumpstats main menu");
-	RegConsoleCmd("sm_showkeys", Command_JsShowkeys, "Oopens the jumopstats showkeys menu");
+	RegConsoleCmd("sm_showkeys", Command_JsShowkeys, "Opens the jumopstats showkeys menu");
+	RegConsoleCmd("sm_showyaws", Command_CheckShowyawsEnabled, "Opens the jumopstats showyaws menu");
 }
 
 public Action Command_Js(int client, int args)
@@ -96,6 +97,16 @@ public Action Command_JsShowkeys(int client, int args)
 							..."You can turn off shavit-showkeys by toggling it again with /showkeys command, or in /hud.", g_sBstatColorsHex[Red], g_sBstatColorsHex[White]);
 		}
 		ShowShowkeysSettingsMenu(client);
+		return Plugin_Handled;
+	}
+	return Plugin_Continue;
+}
+
+public Action Command_CheckShowyawsEnabled(int client, int args)
+{
+	if(g_hEnabledShowyaws.IntValue)
+	{
+		ShowShowyawsSettingsMenu(client);
 		return Plugin_Handled;
 	}
 	return Plugin_Continue;

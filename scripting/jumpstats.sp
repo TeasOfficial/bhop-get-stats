@@ -18,6 +18,7 @@
 #include "jumpstat/showkeys.sp"
 #include "jumpstat/menu.sp"
 #include "jumpstat/command.sp"
+#include "jumpstat/yawdiff.sp"
 
 #undef REQUIRE_PLUGIN
 #include <shavit/core>
@@ -150,6 +151,7 @@ public void OnGameFrame()
 {
 	Util_GameTick();
 	Speedometer_GameTick();
+	ShowYaws_Tick();
 }
 
  public void OnClientDisconnect(int client)

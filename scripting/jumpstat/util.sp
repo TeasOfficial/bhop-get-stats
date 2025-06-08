@@ -156,7 +156,7 @@ stock void BgsPrintToChat(int client, const char[] format, any...)
 
 	if(g_bShavitCoreLoaded)
 	{
-		Shavit_PrintToChat(client, "%s[JumpStats]: %s%s", g_csChatStrings.sVariable, g_csChatStrings.sText, buffer);
+		Shavit_PrintToChat(client, "%s[JumpStats]: %s%s", g_csChatStrings.sVariable, g_csChatStrings.sText, buffer)
 	}
 	else
 	{
@@ -254,7 +254,22 @@ stock float NormalizeAngle(float ang)
 	return ang;
 }
 
+
+stock int Clamp(int val, int min, int max)
+{
+    if (val < min) return min;
+    if (val > max) return max;
+    return val;
+}
+
+stock float ClampFloat(float val, float min, float max)
+{
+    if (val < min) return min;
+    if (val > max) return max;
+    return val;
+}
+
 stock float operator%(float oper1, float oper2)
-{ 
+{
 	return __FLOAT_MOD__(oper1, oper2);
 }

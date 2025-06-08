@@ -27,7 +27,7 @@
 #define SHOWKEYS_ENABLED 1 << 26
 #define SHOWKEYS_SIMPLE 1 << 27
 #define SHOWKEYS_UNRELIABLE 1 << 28
-//open slot 1 << 29
+#define SHOWYAWS_ENABLED 1 << 29
 //open slot 1 << 30
 //open slot 1 << 31
 //open slot 1 << 32 -> must solve issues (or make sure there are none) with handling sign bit if this is used
@@ -60,7 +60,7 @@ char g_sHudStrs[][] = {
 	"Jhud",
 	"Trainer",
 	"Offset",
-	"Speedometer",
+	"Speedometer/ShowYaws",
 	"FJT",
 	"ShowKeys"
 };
