@@ -35,6 +35,18 @@ char g_sBstatColorsHex[][] = {
 	"\x07ee00ff"
 };
 
+stock char g_sBstatColorsHexCSCO[][] = {
+	"\x07",
+	"\x10",
+	"\x05",
+	"\x06",
+	"\x01",
+	"\x09",
+	"\x0B",
+	"\x03",
+	"\x0E"
+};
+
 int g_iBstatColors[][] = { //general colors
 	{255, 0, 0},
 	{255, 165, 0},

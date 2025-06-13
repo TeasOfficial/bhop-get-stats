@@ -104,13 +104,25 @@ void SSJ_WriteMessage(int client, int target, int jump, int speed, int strafecou
 		int idx = GetPercentageColorIdx(gain, true);
 		int settingsIdx = g_iSettings[client][idx];
 
-		if(g_iSettings[client][Bools] & SSJ_DECIMALS)
+		if(BgsGetEngineVersion() == Engine_CSGO){
+			if(g_iSettings[client][Bools] & SSJ_DECIMALS)
+			{
+				Format(message, sizeof(message), "%s %s| G: %s%.2f%%", message, g_csChatStrings.sText, g_sBstatColorsHexCSCO[settingsIdx], gain);
+			}
+			else
+			{
+				Format(message, sizeof(message), "%s %s| G: %s%i%%", message, g_csChatStrings.sText, g_sBstatColorsHexCSCO[settingsIdx], RoundToFloor(gain));
+			}
+		}else
 		{
-			Format(message, sizeof(message), "%s %s| G: %s%.2f%%", message, g_csChatStrings.sText, g_sBstatColorsHex[settingsIdx], gain);
-		}
-		else
-		{
-			Format(message, sizeof(message), "%s %s| G: %s%i%%", message, g_csChatStrings.sText, g_sBstatColorsHex[settingsIdx], RoundToFloor(gain));
+			if(g_iSettings[client][Bools] & SSJ_DECIMALS)
+			{
+				Format(message, sizeof(message), "%s %s| G: %s%.2f%%", message, g_csChatStrings.sText, g_sBstatColorsHex[settingsIdx], gain);
+			}
+			else
+			{
+				Format(message, sizeof(message), "%s %s| G: %s%i%%", message, g_csChatStrings.sText, g_sBstatColorsHex[settingsIdx], RoundToFloor(gain));
+			}
 		}
 	}
 
